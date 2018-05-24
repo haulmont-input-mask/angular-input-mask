@@ -1,7 +1,7 @@
 #### Форк https://github.com/text-mask/text-mask
 
 #Установка
-Прописать в package/dependencies "input-mask": "git+https://git.haulmont.com/kids-app/input-mask.git"
+Запустить npm i angular5-input-mask
 
 #Документация
 Для использования импортировать в модуль: InputMaskModule
