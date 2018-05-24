@@ -18,6 +18,8 @@ Desktop.ini
 # Mac
 .DS_Store
 
+package-lock.json
+
 # Temporary files
 coverage/
 dist
