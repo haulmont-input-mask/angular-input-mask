@@ -17,8 +17,6 @@
       "./node_modules/@types"
     ],
     "types": [
-      "jasmine",
-      "karma",
       "node",
       "webpack",
       "webpack-env"
@@ -28,7 +26,6 @@
     "src/**/*.ts"
   ],
   "exclude": [
-    "src/**/*.spec.ts",
     "node_modules",
     "demo",
     "dist"

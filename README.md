@@ -1,36 +1,183 @@
-# `angular-library-seed` - the starter for Angular libraries
+#### Форк https://github.com/text-mask/text-mask
 
-[![Build Status](https://travis-ci.org/trekhleb/angular-library-seed.svg?branch=master)](https://travis-ci.org/trekhleb/angular-library-seed)
-[![codecov](https://codecov.io/gh/trekhleb/angular-library-seed/branch/master/graph/badge.svg)](https://codecov.io/gh/trekhleb/angular-library-seed)
-[![npm version](https://badge.fury.io/js/angular-library-seed.svg)](https://badge.fury.io/js/angular-library-seed)
+#Установка
+Прописать в package/dependencies "input-mask": "git+https://git.haulmont.com/kids-app/input-mask.git"
 
-> Seed project for [Angular](https://angular.io/) libraries that are [AOT](https://angular.io/docs/ts/latest/cookbook/aot-compiler.html)/[JIT](https://angular.io/docs/ts/latest/cookbook/aot-compiler.html) compatible and that use external [SCSS](http://sass-lang.com/)-styles and HTML-templates.
+#Документация
+Для использования импортировать в модуль: InputMaskModule
+<br>Станет доступна директива: inputMask, директива принимает в себя маску, в формате `mask` 
+(формат далее в расширенной документации).
+Так-же директива принимает pipe функцию постобрабортки (inputMaskPipe) или пресет, состоящий из маски 
+и pipe функцию (inputMaskPreset).
 
-This project contains TickTock library example. The library itself is small and the only thing it does is [displaying current time](http://embed.plnkr.co/VbO1hldrCfF6ITG6VvGG/) (Plunker example). But what **most important** is that the project contains **reusable environment** for the libraries that allows to build, test, lint, document, explore and publish them.
+#Cборка
+Перед коммитом требуется сборка: npm run packagr
 
-> [Read more](https://medium.com/@trekhleb/how-to-create-aot-jit-compatible-angular-4-library-with-external-scss-html-templates-9da6e68dac6e) about architectural **challenges** and **solutions** used in this repository.
+#Расширенная документация
 
-# You might find this project helpful if
-- You want to create library for **Angular 4**.
-- You want your library to be ready for further **AOT** or **JIT** compilation.
-- You want your library to be ready for further usage **directly in browsers** (let's say [UMD](https://github.com/umdjs/umd) bundle loaded by [SystemJS](https://github.com/systemjs/systemjs)).
-- You want to write component styles in **external SCSS files**.
-- You want to write component templates in **external HTML files**.
-- You want to have **watch-mode** for library builds (including AOT build).
+* Параметры:
+  * [`mask`](#mask) ((RegExp /string)[]) - Маска
+  * [`guide`](#guide) (boolean) - Показывать маску при заполнении
+  * [`placeholderChar`](#placeholderchar) (string) - Заполнитель
+  * [`keepCharPositions`](#keepcharpositions) (boolean)
+  * [`pipe`](#pipe) (function) - Постобработка функцией
+  * [`showMask`](#showmask) (boolean)
+* [Included `conformToMask`](#included-conformtomask)
+* [Supported `<input>` types](#supported-input-types)
 
-# Main Features
-- **AOT/JIT** compatible library build via [Angular Compiler](https://www.npmjs.com/package/@angular/compiler-cli) (ngc).
-- **UMD** build via [Webpack](https://webpack.js.org/) that allows you to use your library for browser builds. You may play with it on [Plunker](http://embed.plnkr.co/VbO1hldrCfF6ITG6VvGG/).
-- **Testing** with [Karma](https://karma-runner.github.io/1.0/index.html) and [Jasmine](https://jasmine.github.io/).
-- **Test coverage** report via [Istanbul](https://github.com/gotwarlost/istanbul).
-- **Watch modes** for building and testing procedures that makes developing process easier.
-- **Linting** with [TSLint](https://palantir.github.io/tslint/) and [Codelyzer](https://github.com/mgechev/codelyzer) for static code analysis.
-- **Exploring your build** via [Sourcemap Explorer](https://www.npmjs.com/package/source-map-explorer) that shows you a treemap visualization to help you debug where all the code is coming from. 
-- **Documentation generation** via [Compodoc](https://github.com/compodoc/compodoc). Take a look at [documentation example](https://trekhleb.github.io/angular-library-seed/).
-- **Documentation hosting**  via [GitHub Pages](https://pages.github.com/).
-- **AOT/JIT/UMD demos** via [Webpack](https://webpack.js.org/) and [SystemJS](https://github.com/systemjs/systemjs) that allows you to test library builds.
-- **Continuous integration** with [Travis CI](https://travis-ci.org/).
-- **Code coverage** badge via [Codecov](https://codecov.io) as a reminder to cover code with tests.
+## `mask`
+
+`mask` Массив регулярных выражений или строк, каждый элемент которой соответствует символу в значении. 
+
+Регулярное выражение будет использоваться для проверки пользовательского ввода и либо разрешить его, либо отклонить.
+
+Например, маска для номера телефона в США, такого как `(555) 392-4932`, может быть:
+
+```js
+['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
+```
+
+Это означает, что пользователь может ввести только число от 1 до 9 в первом слоте, 
+и только цифры далее. 
+
+Примечание. Можно установить маску на `false`, чтобы полностью отключить маскировку.
+
+## `guide`
+
+`guide` - логическое значение, указывающее компоненту, должен ли он находиться в режиме * guide * или * no guide *.
+
+**По у молчанию включен режим * guide *
+
+<table>
+<tbody>
+<tr>
+<th>Guide mode</th>
+<th>No-guide mode</th>
+</tr>
+
+<tr>
+<td>
+<p align="center">
+<img src="assets/guideMode.gif"/>
+</p>
+
+<p>
+Когда включен режим * guide *, в текстовой маске всегда отображаются как символы-заполнители, так и символы маски не-заполнителя.
+</p>
+</td>
+
+<td>
+<p align="center">
+<img src="assets/noGuideMode.gif"/>
+</p>
+
+</p>
+В выключенном режиме * guide *, плагин добавляет символы заполнители только когда пользователь достигает их, вводом текста.
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+## `placeholderChar`
+
+Символ-заполнитель представляет собой слот в маске. 
+Заполнитель по умолчанию символ подчеркивания, `_`.
+
+Пример, для маски ...
+
+```js
+['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]
+```
+ 
+... placeholder будет `(___) ___-____`.
+
+Вы можете передать другой символ-заполнитель. Например, символ юникода `U + 2000`
+сделать маску выше похожим на `() -`. В JavaScript вы должны передать такой символ юникода
+как `'\u2000'`.
+
+&#x1F4CD; **Внимание!**: нельзя использовать в маске символ заполнитель. 
+
+## `keepCharPositions`
+
+`keepCharPositions` изменяет поведение компонента Text Mask касаемо курсора ввода.
+
+**It is set to `false` by default**,
+
+<table>
+<tbody>
+<tr>
+<th><code>keepCharPositions</code> is set to <code>true</code></th>
+<th><code>keepCharPositions</code> is set to <code>false</code></th>
+</tr>
+
+<tr>
+<td>
+<p align="center">
+<img src="assets/keepCharPositionsTrue.gif"/>
+</p>
+
+<p>
+Когда режим включён <code>true</code>, изменение и удаление символов, не меняет положения уже 
+введённых символов.
+</p>
+</td>
+
+<td>
+<p align="center">
+<img src="assets/keepCharPositionsFalse.gif"/>
+</p>
+
+</p>
+Когда режим выключен <code>false</code>, добавление и удаление символов, вдвигает остальные 
+символы.
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+## `pipe`
+
+Pipe функция позволяет дополнительно обработать значение ( подтвердить / отвергнуть / дополнить ) перед отображением.
+
+Функция принимает параметры:
+
+1. conformedValue
+1. PipeConfig
+
+conformedValue - значение введенное пользователем и подтвержденной маской ввода.
+
+Функция может вернуть 3 типа ответа : `false`, `string`, or `object`.
+
+`false` - опровергает пользовательский ввод.
+
+Функция может модифицировать строку после пользователя, когда функция модифицирует строку, она должна вернуть объект: 
+
+1. `value`: новая строка
+1. `indexesOfPipedChars`: массив целых чисел, который содержит индексы всех символов, которые были добавлены
+
+Примеры:
+[`createAutoCorrectedDatePipe`](https://github.com/text-mask/text-mask/blob/master/addons/src/createAutoCorrectedDatePipe.js)
+ [Text Mask addon](https://github.com/text-mask/text-mask/tree/master/addons/#readme).
+
+
+## `showMask`
+
+`showMask` логическое значение, которое сообщает компоненту Text Mask отображать маску как
+           placeholder вместо обычного заполнителя, когда значение входного элемента пусто.
+
+---
+
+### Поддерживаемые типы `<input>`
+
+Обратите внимание: Text Mask поддерживает тип ввода `text`,` tel`, `url`,` password` и `search`. Из-за ограничения
+в API браузера другие типы ввода, такие как `email` или` number`, не поддерживаются. 
+ 
+
+
+### Fork `angular-library-seed` - the starter for Angular libraries
+https://github.com/trekhleb/angular-library-seed#angular-library-seed---the-starter-for-angular-libraries
 
 # Quick Start
 
@@ -104,14 +251,6 @@ Install Yarn by following the [instructions](https://yarnpkg.com/en/docs/install
 - `clone` your fork to your local environment.
 - `yarn install` to install required dependencies (or `npm i`).
 
-## Replace `TickTock` library with your own library
-This step may be optional at first since you might just want to play with existing library example.
-
-Когда вы будете готовы разработать свою собственную библиотеку, вы должны сделать следующее.
-- Проверяйте и повторно настраивайте поля `package.json`, такие как` name`, `version`,` keywords`, `description` и т. Д. Вы можете прочитать об особенностях обработки npm [package.json] (https: // docs. npmjs.com/files/package.json), чтобы сделать это.
-- Замените содержимое папки `src` на источники вашей библиотеки. Ваша библиотека должна иметь файл `index.ts` в качестве точки входа для дальнейшего построения.
-- Обновляйте источники «demo», чтобы они потребляли вашу библиотеку в случае, если вы хотите сохранить демонстрационную папку.
-
 ## Build the library
 - `yarn build` for building the library once (both ESM and AOT versions).
 - `yarn build:watch` for building the library (both ESM and AOT versions) and watch for file changes.
@@ -126,14 +265,6 @@ You may also build UMD bundle and ESM files separately:
 
 #### Lint the code
 - `yarn lint` for performing static code analysis.
-
-#### Test the library
-- `yarn test` for running all your `*.spec.ts` tests once. Generated code coverage report may be found in `coverage` folder.
-- `yarn test:watch` for running all you `*.spec.ts` and watch for file changes.
-
-#### Generate documentation
-- `yarn docs` for generating documentation locally.
-- `yarn gh-pages` for generating documentation and uploading it to GitHub Pages. [Documentation example](https://trekhleb.github.io/angular-library-seed/).
 
 #### Explore the bundle
 - `yarn explorer` to find out where all your code in bundle is coming from.
@@ -160,19 +291,6 @@ There are several ways to go here:
 - Use your **real library-consumer project** and link your library to it via `yarn link` command (see below).
 - Use [demo applications](https://github.com/trekhleb/angular-library-seed/tree/master/demo) that are provided for your convenience as a part of this repository.
 - Use [Angular-CLI](https://cli.angular.io/) to generate library-consumer project for you and then use `yarn link` to link your library to it.
-
-### Using demo applications
-
-You may take advantage of watch-modes for both library build and [demo-projects](https://github.com/trekhleb/angular-library-seed/tree/master/demo) builds in order to see changes to your library's source code immediately in your browser.
-
-To do so you need to:
-1. Open two console instances.
-2. Launch library build in watch mode in first console instance by running `yarn build:watch` (assuming that you're in `angular-library-seed` root folder).
-3. Launch demo project build (JIT version) in watch-mode by running `yarn start` in second console instance (assuming that you're in `angular-library-seed/demo` folder).
-
-As a result once you change library source code it will be automatically re-compiled and in turn your JIT demo-project will be automatically re-built and you will be able to see that changes in your browser instantly.
-
-For more details about demo projects, their folder structure and npm commands please take a look at [demo projects README](https://github.com/trekhleb/angular-library-seed/tree/master/demo).
 
 ### Using `yarn link`
 
@@ -202,11 +320,3 @@ Now, once you update your library source code it will automatically be re-compil
 
 [More information](https://yarnpkg.com/en/docs/cli/link) about `yarn link` command.
 
-> At the moment of publishing this project there is a [bug](https://github.com/angular/angular-cli/issues/3854) exists when using `yarn link` in combination with Angular CLI. The issue is caused by having `node_modules` folder inside linked library. There is a [workaround](https://github.com/angular/angular-cli/issues/3854#issuecomment-274344771) has been provided that suggests to add a `paths` property with all Angular dependencies to the `tsconfig.json` file of the Angular CLI project like it is shown below:
-```
-{
-  "compilerOptions": {
-    "paths": { "@angular/*": ["../node_modules/@angular/*"] }
-  }
-}
-```
