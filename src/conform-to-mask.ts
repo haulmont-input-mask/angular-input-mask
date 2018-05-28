@@ -121,55 +121,7 @@ export default function conformToMask(inputValue: string, mask: InputmaskMaskFor
             // Мы сопоставляем символы по-разному, основываясь на том, сохраняем ли мы позицию символа или нет.
             // Если выполняется какое-либо условие из приведенных ниже, мы просто сопоставляем символ исходного значения
             // с позицией-заполнителем.
-            if (
-              keepCharPositions !== true ||
-              isNew === false ||
-              previousConformedValue === emptyString ||
-              guide === false ||
-              !isAddition
-            ) {
-              conformedValue += rawValueChar;
-            } else {
-              // Мы вводим этот блок кода, если мы пытаемся сохранить позиции символов, и ни одно
-              // из приведенных выше условий не выполняется.
-              // В этом случае нам нужно увидеть, есть ли подходящее место в маске, для текущего символа.
-              // Если мы не сможем найти подходящее место в маске, мы пропускаем символ.
-              //
-              // Например, для маски `1111`, предыдущее согласованное значение` _2__`, необработанное значение `942_2__`.
-              // Мы можем сопоставить `9`, с первой доступной позицией placeholder, но тогда больше нет слотов для` 4` и `2`.
-              // Таким образом, мы отбрасываем их и получаем согласованное значение `92__`.
-              const rawValueArrLength = rawValueArr.length;
-              let indexOfNextAvailablePlaceholderChar = null;
-
-              // Перейдем к оставшимся символам введенного значения. Мы ищем подходящее место, то есть символ-заполнитель или
-              // не подходящее место, т. Е. Не-заполнитель, который не является новым. Если мы сначала увидим подходящее место,
-              // мы сохраним его положение и выйдем из цикла.
-              // Если сначала мы увидим не подходящее место, мы выйдем из цикла,
-              // и наш `indexOfNextAvailablePlaceholderChar` останется как« null ».
-              for (let wordNum = 0; i < rawValueArrLength; wordNum++) {
-                const charData = rawValueArr[wordNum];
-
-                if (charData.char !== placeholderChar && charData.isNew === false) {
-                  break;
-                }
-
-                if (charData.char === placeholderChar) {
-                  indexOfNextAvailablePlaceholderChar = wordNum;
-                  break;
-                }
-              }
-
-              // Если `indexOfNextAvailablePlaceholderChar` не` null`, это означает, что символ не заблокирован. Мы можем отобразить его.
-              // И чтобы сохранить позиции символа, мы удаляем символ-заполнитель из остальных символов
-              if (indexOfNextAvailablePlaceholderChar !== null) {
-                conformedValue += rawValueChar;
-                rawValueArr.splice(indexOfNextAvailablePlaceholderChar, 1);
-
-                // Если `indexOfNextAvailablePlaceholderChar` === `null`, это означает, что символ заблокирован. Мы должны отбросить его.
-              } else {
-                i--;
-              }
-            }
+            conformedValue += rawValueChar;
 
             // Так как мы сопоставили эту позицию заполнителя. Мы переходим к следующему.
             continue placeholderLoop;
