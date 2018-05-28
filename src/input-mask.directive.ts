@@ -8,9 +8,9 @@ import {
   Renderer2,
   SimpleChanges
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { InputmaskMaskFoprmat, InputmaskPipe, InputmaskPreset, MaskConfig } from './interfaces';
-import { InputMaskElement } from './input-mask-element';
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {InputmaskMaskFormat, InputmaskPipe, InputmaskPreset, MaskConfig} from './interfaces';
+import {InputMaskElement} from './input-mask-element';
 
 const NOOP = () => {
 };
@@ -35,7 +35,7 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
   };
 
   @Input()
-  set inputMask(mask: InputmaskMaskFoprmat) {
+  set inputMask(mask: InputmaskMaskFormat) {
     this.textMaskConfig.mask = mask;
   }
 
@@ -49,6 +49,15 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
     this.inputMask = preset.mask;
     if (preset.pipe) {
       this.inputMaskPipe = preset.pipe;
+    }
+    if (preset.guide !== undefined) {
+      this.textMaskConfig.guide = preset.guide;
+    }
+    if (preset.keepCharPositions !== undefined) {
+      this.textMaskConfig.keepCharPositions = preset.keepCharPositions;
+    }
+    if (preset.placeholderChar) {
+      this.textMaskConfig.placeholderChar = preset.placeholderChar;
     }
   }
 

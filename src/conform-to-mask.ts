@@ -1,8 +1,8 @@
 import { convertMaskToPlaceholder } from './conver-mask-to-placeholder';
 import { emptyString, placeholderChar as defaultPlaceholderChar } from './constants';
-import { ConformToMaskConfig, InputmaskMaskFoprmat } from './interfaces';
+import { ConformToMaskConfig, InputmaskMaskFormat } from './interfaces';
 
-export default function conformToMask(inputValue: string, mask: InputmaskMaskFoprmat, config: ConformToMaskConfig): string {
+export default function conformToMask(inputValue: string, mask: InputmaskMaskFormat, config: ConformToMaskConfig): string {
   // Конфигурация как согласовывать значение с маской
   const {
     guide = true,

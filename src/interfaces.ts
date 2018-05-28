@@ -8,7 +8,7 @@ export interface ConformToMaskConfig {
 }
 
 export interface MaskConfig {
-  mask: InputmaskMaskFoprmat; // Массив маски, по строке / RegExp на символ
+  mask: InputmaskMaskFormat; // Массив маски, по строке / RegExp на символ
   guide: boolean; // Показывать placeholder при вводе
   placeholderChar: string; // Символ placeholder
   pipe: InputmaskPipe; // Функция проверки значения
@@ -23,6 +23,9 @@ export interface PipeConfig extends ConformToMaskConfig {
 export interface InputmaskPreset {
   mask: (string | RegExp)[];
   pipe?: InputmaskPipe;
+  guide?: boolean;
+  keepCharPositions?: boolean;
+  placeholderChar?: string;
 }
 
 export interface PipeResult {
@@ -32,7 +35,7 @@ export interface PipeResult {
 }
 
 export interface MaskConfig {
-  mask: InputmaskMaskFoprmat; // Массив маски, по строке / RegExp на символ
+  mask: InputmaskMaskFormat; // Массив маски, по строке / RegExp на символ
   guide: boolean; // Показывать placeholder при вводе
   placeholderChar: string; // Символ placeholder
   pipe: InputmaskPipe; // Функция проверки значения
@@ -53,13 +56,8 @@ export interface PipeConfig extends ConformToMaskConfig {
   rawValue?: string;
 }
 
-export interface InputmaskPreset {
-  mask: (string | RegExp)[];
-  pipe?: InputmaskPipe;
-}
-
 export type InputmaskPipe = (verifiedValue: string, config?: PipeConfig) => boolean | string | PipeResult;
 
-export type InputmaskMaskFoprmat = (string | RegExp)[] | false;
+export type InputmaskMaskFormat = (string | RegExp)[] | false;
 
 export type PipeReturn = boolean | string | PipeResult;
