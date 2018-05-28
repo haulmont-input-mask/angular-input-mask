@@ -1,7 +1,7 @@
 import { placeholderChar as defaultPlaceholderChar } from './constants';
-import { InputmaskMaskFoprmat, PipeResult } from './interfaces';
+import { InputmaskMaskFormat, PipeResult } from './interfaces';
 
-export function convertMaskToPlaceholder(mask: InputmaskMaskFoprmat, placeholderChar = defaultPlaceholderChar): string {
+export function convertMaskToPlaceholder(mask: InputmaskMaskFormat, placeholderChar = defaultPlaceholderChar): string {
   if (!mask) {
     return '';
   }
