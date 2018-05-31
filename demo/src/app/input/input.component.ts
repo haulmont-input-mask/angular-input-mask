@@ -1,5 +1,4 @@
 import { Component, ElementRef, forwardRef, HostBinding, HostListener, Input } from '@angular/core';
-import { BaseInput } from './base-input';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { InputmaskPipe } from '../../../../src';
 
@@ -15,10 +14,9 @@ type TouchInputListener = () => void;
   styleUrls: ['./input.component.scss'],
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => KaInputComponent), multi: true },
-    { provide: BaseInput, useExisting: KaInputComponent }
   ]
 })
-export class KaInputComponent extends BaseInput implements ControlValueAccessor {
+export class KaInputComponent implements ControlValueAccessor {
 
   value: string;
 
@@ -39,7 +37,6 @@ export class KaInputComponent extends BaseInput implements ControlValueAccessor 
   private propagateChange = NOOP;
 
   constructor(element: ElementRef) {
-    super(element);
   }
 
   writeValue(value: string): void {
@@ -57,7 +54,6 @@ export class KaInputComponent extends BaseInput implements ControlValueAccessor 
   updateValue(value: string): void {
     this.value = value;
     this.propagateChange(value);
-    super.onChangeComponent();
   }
 
   registerOnChange(fn: ChangeValueListener): void {
@@ -67,13 +63,6 @@ export class KaInputComponent extends BaseInput implements ControlValueAccessor 
   registerOnTouched(fb: TouchInputListener): void {
   }
 
-  get minimalWidth(): number {
-    return this.inputMinimalWidth;
-  }
-
-  get isShowReset(): boolean {
-    return !!this.value && !this.disabled;
-  }
 
   numberMask(max: number): (string | RegExp)[] {
     const mask = [];
