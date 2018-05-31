@@ -6,6 +6,13 @@
   <h2> Дата до сегодня </h2>
   <input type="text" placeholder="дд.мм.гггг" inputMask [inputMaskPreset]="presetToday"/>
 
-  <h2>Тайм едит</h2>
-  <input inputMask [inputMaskPreset]="presetTime" />
+  <form [formGroup]="form">
+    <h2>Тайм едит</h2>
+    <input formControlName="time" inputMask [inputMaskPreset]="presetTime">
+
+    <br><br>
+    <ka-input type="number" formControlName="number" max="9999"></ka-input>
+    <button (click)="setNumber()"> Set number </button>
+    <button (click)="resetNumber()"> Reset number </button>
+  </form>
 </div>

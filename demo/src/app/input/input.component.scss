@@ -1,0 +1,42 @@
+
+
+input {
+  background: #f0f2f1;
+  box-sizing: border-box;
+  width: 100%;
+
+  &.show-reset {
+    padding-right: 35px;
+  }
+}
+
+:host {
+  display: inline-block;
+  position: relative;
+
+  .icon-reset {
+    cursor: pointer;
+    height: 8px;
+    position: absolute;
+    right: 7px;
+    top: 5px;
+    width: 8px;
+    padding: 9px;
+  }
+
+  &.include-icon {
+
+    input {
+      padding-left: 37px;
+    }
+
+    .icon {
+      height: 14px;
+      left: 16px;
+      position: absolute;
+      top: 12px;
+      width: 12px;
+    }
+  }
+}
+

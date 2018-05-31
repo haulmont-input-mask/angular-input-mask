@@ -1,18 +1,21 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {InputMaskModule} from '../../../src/input-mask';
+import {KaInputComponent} from './input/input.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    KaInputComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    InputMaskModule
+    InputMaskModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

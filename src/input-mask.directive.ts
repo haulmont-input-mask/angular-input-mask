@@ -91,6 +91,9 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
   }
 
   writeValue(value: string): void {
+
+    this.lastValue = value;
+
     this.setupMask(true);
     // установить начальное значение для случаев, когда маска отключена
     const normalizedValue = value == null ? '' : value;

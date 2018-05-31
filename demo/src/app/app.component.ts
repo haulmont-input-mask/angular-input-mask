@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {createPipeCheckDate, InputmaskPreset, PipeResult} from '../../../src';
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 export const MASK_YEAR = [/[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, '.', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
 
@@ -15,6 +16,17 @@ export class AppComponent {
   readonly timeStringLength = 2;
   readonly maxHourFirstDigit = 2;
   readonly maxMinuteFirstDigit = 5;
+
+  readonly minuteLength = 2;
+
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      time: '11:00',
+      number: 10
+    });
+  }
 
   get preset(): InputmaskPreset {
     return {
@@ -71,7 +83,7 @@ export class AppComponent {
     // Если длина часа больше 2, значит пользователь начал ввод минут
     if (hour.length > this.timeStringLength) {
       // Если минуты уже введены, надо отбросить значение
-      if (minute.length !== 2) {
+      if (minute.length !== this.minuteLength) {
         minute = minute + hour.substr(this.timeStringLength);
       }
       hour = hour.substr(0, this.timeStringLength);
@@ -102,6 +114,14 @@ export class AppComponent {
       value: conformedValue,
       indexesOfPipedChars
     };
+  }
+
+  setNumber(): void {
+   this.form.controls['number'].patchValue('500');
+  }
+
+  resetNumber(): void {
+    this.form.reset();
   }
 
 }
