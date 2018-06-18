@@ -76,11 +76,17 @@ export class InputMaskDirective implements ControlValueAccessor, OnChanges {
   }
 
   @HostListener('input') onInput(value: string): void {
+    console.log('input', value);
     this.setValue(value);
   }
 
   @HostListener('blur') onBlur(): void {
     this.propagateTouched();
+  }
+
+  @HostListener('keypress', ['$event']) onKeyUp(event: KeyboardEvent): void {
+    console.log('keyup', event);
+    event.stopPropagation();
   }
 
   ngOnChanges(changes: SimpleChanges): void {

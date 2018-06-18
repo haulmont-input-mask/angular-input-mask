@@ -30,7 +30,7 @@ export class KaInputComponent implements ControlValueAccessor {
 
   @Input() max: number;
 
-  readonly inputMinimalWidth = 150;
+  @Input() min: number;
 
   readonly radix = 10;
 
@@ -73,11 +73,14 @@ export class KaInputComponent implements ControlValueAccessor {
     return mask;
   }
 
-  pipeNumber(max: number): InputmaskPipe {
+  pipeNumber(max: number, min: number): InputmaskPipe {
     return function(value: string): string | boolean {
-      if (parseInt(value, this.radix) > max) {
+      if (+value > max) {
         return max.toString();
       } else {
+        if (min && min > +value) {
+          return min.toString();
+        }
         return value;
       }
     };

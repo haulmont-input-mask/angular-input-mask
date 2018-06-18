@@ -21,6 +21,8 @@ export class AppComponent {
 
   form: FormGroup;
 
+  number: string;
+
   constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       time: '11:00',

@@ -1,7 +1,8 @@
 <h2> Проверка </h2>
 <div class="main">
   <h2> Пример </h2>
-  <input type="text" placeholder="дд.мм.гггг" inputMask [inputMaskPreset]="preset"/>
+  <input type="text" [(ngModel)]="dateModel" placeholder="дд.мм.гггг" inputMask [inputMaskPreset]="preset"/>
+  {{ dateModel }}
 
   <h2> Дата до сегодня </h2>
   <input type="text" placeholder="дд.мм.гггг" inputMask [inputMaskPreset]="presetToday"/>
@@ -15,4 +16,8 @@
     <button (click)="setNumber()"> Set number </button>
     <button (click)="resetNumber()"> Reset number </button>
   </form>
+
+  <h2> Число </h2>
+  <ka-input [max]="200"  [min]="1"  type="number"  [(ngModel)]="number"></ka-input>
+  {{ number }}
 </div>

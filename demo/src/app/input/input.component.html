@@ -13,11 +13,9 @@
   [class.show-reset]="isShowReset"
   type="text"
   [inputMask]="numberMask(max)"
-  [inputMaskPipe]="pipeNumber(max)"
+  [inputMaskPipe]="pipeNumber(max, min)"
   [attr.disabled]="disabled ? '' : null"
   [placeholder]="placeholder"
   [(ngModel)]="value"/>
 
-<div class="error" [hidden]="!error">
-  {{ error }}
-</div>
+<button (click)="updateValue(null)">Clear</button>
