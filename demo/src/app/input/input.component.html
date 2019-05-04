@@ -1,20 +1,16 @@
 <input
   *ngIf="!max"
   class="ka-input"
-  [class.show-reset]="isShowReset"
   [type]="type"
-  [attr.disabled]="disabled ? '' : null"
   [placeholder]="placeholder"
   [(ngModel)]="value"/>
 
 <input
   *ngIf="type === 'number' && max"
   class="ka-input"
-  [class.show-reset]="isShowReset"
   type="text"
   [inputMask]="numberMask(max)"
   [inputMaskPipe]="pipeNumber(max)"
-  [attr.disabled]="disabled ? '' : null"
   [placeholder]="placeholder"
   [(ngModel)]="value"/>
 

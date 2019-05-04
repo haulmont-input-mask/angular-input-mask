@@ -67,28 +67,14 @@ export default {
       }
     ]
   },
+  optimization: {
+    minimize: true,
+  },
+  mode: 'production',
   plugins: [
     new webpack.ContextReplacementPlugin(
       /angular(\\|\/)core(\\|\/)@angular/,
       path.join(__dirname, 'src')
     ),
-
-    new webpack.optimize.UglifyJsPlugin({
-      include: /\.min\.js$/,
-      sourceMap: true
-    }),
-
-    new webpack.BannerPlugin({
-      banner: `
-/**
- * ${pkg.name} - ${pkg.description}
- * @version v${pkg.version}
- * @license ${pkg.license}
- */
-      `.trim(),
-      raw: true,
-      entryOnly: true
-    })
-
   ]
 } as webpack.Configuration;

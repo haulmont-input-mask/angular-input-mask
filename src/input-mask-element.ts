@@ -166,9 +166,9 @@ export class InputMaskElement {
 
   defer(arg, time): number {
     if (typeof requestAnimationFrame !== 'undefined') {
-      return requestAnimationFrame(arg);
+      return window.requestAnimationFrame(arg);
     } else {
-      return setTimeout(arg, time);
+      return window.setTimeout(arg, time);
     }
   }
 
